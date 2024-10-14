@@ -1,0 +1,121 @@
+databaseChangeLog:
+  - changeSet:
+      id: "1"
+      author: "Sumit.k"
+      changes:
+        - createTable:
+            tableName: ms_org_client
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+
+              - column:
+                  name: name
+                  type: VARCHAR(256)
+
+              - column:
+                  name: phone_number
+                  type: VARCHAR(256)
+
+              - column:
+                  name: country
+                  type: VARCHAR(256)
+
+              - column:
+                  name: state
+                  type: VARCHAR(256)
+
+              - column:
+                  name: status
+                  type: VARCHAR(64)
+
+              - column:
+                  name: district
+                  type: VARCHAR
+
+              - column:
+                  name: address
+                  type: VARCHAR(256)
+
+              - column:
+                  name: mobile_number
+                  type: VARCHAR(32)
+
+              - column:
+                  name: pwd
+                  type: VARCHAR(256)
+
+              - column:
+                  name: area_pin
+                  type: bigint
+
+              - column:
+                  name: role_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_ms_org_client_role
+                    references: role(id)
+
+              - column:
+                  name: is_account_non_locked
+                  type: boolean
+                  constraints:
+                    nullable: true
+                  defaultValueBoolean: true
+
+              - column:
+                  name: is_account_non_expired
+                  type: boolean
+                  constraints:
+                    nullable: true
+                  defaultValueBoolean: true
+
+              - column:
+                  name: is_credentials_non_expired
+                  type: boolean
+                  constraints:
+                    nullable: true
+                  defaultValueBoolean: true
+
+              - column:
+                  name: is_org_verified
+                  type: boolean
+                  defaultValueBoolean: true
+
+              - column:
+                  name: is_phone_number_verified
+                  type: boolean
+                  defaultValueBoolean: true
+
+              - column:
+                  name: is_active
+                  type: boolean
+                  defaultValueBoolean: true
+
+              - column:
+                  name: web_site_url
+                  type: varchar
+                  constraints:
+                    unique: true
+
+              - column:
+                  name: created_at
+                  type: datetime
+
+              - column:
+                  name: updated_at
+                  type: datetime
+
+              - column:
+                  name: created_by
+                  type: bigint
+
+              - column:
+                  name: updated_by
+                  type: bigint

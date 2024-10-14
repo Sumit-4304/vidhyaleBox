@@ -1,0 +1,35 @@
+databaseChangeLog:
+  - changeSet:
+      id: "0"
+      author: "Sumit.k"
+      changes:
+        - createTable:
+            tableName: role
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+
+              - column:
+                  name: name
+                  type: varchar
+
+              - column:
+                  name: created_at
+                  type: datetime
+
+              - column:
+                  name: updated_at
+                  type: datetime
+
+              - column:
+                  name: created_by
+                  type: bigint
+
+              - column:
+                  name: updated_by
+                  type: bigint

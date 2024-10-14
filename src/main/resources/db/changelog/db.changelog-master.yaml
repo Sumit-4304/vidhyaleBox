@@ -1,0 +1,10 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/V000-cr-tbl-role.yaml
+  - include:
+      file: db/changelog/V001-cr-tbl-ms_org_client.yaml
+  - include:
+      file: db/changelog/V002-cr-tbl-user.yaml
+
+
+
