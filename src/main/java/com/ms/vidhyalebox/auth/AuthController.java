@@ -41,8 +41,53 @@ public class AuthController {
     }
 
 
-    @PostMapping("/signup")
-    public GenericResponse registerUser(@Valid @RequestBody OrgSignupRequestDTO orgSignupRequestDTO) {
+    @PostMapping("/org-signup")
+    public GenericResponse registerOrg(@Valid @RequestBody OrgSignupRequestDTO orgSignupRequestDTO) {
+
+        List<Notification> notifications = new ArrayList<>();
+
+        if (_iOrgClientService.isEmailAlreadyExist(orgSignupRequestDTO.getEmailAddress())) {
+            Notification notification = new Notification();
+            notification.setNoificationCode("401");
+            notification.setNotificationDescription("User's email address already exists");
+            notifications.add(notification);
+        }
+
+        if (_iOrgClientService.isMobileNumberExist(orgSignupRequestDTO.getIsdCode().concat(orgSignupRequestDTO.getMobileNumber()))) {
+            Notification notification = new Notification();
+            notification.setNoificationCode("401");
+            notification.setNotificationDescription("User's Phone Number already exists");
+            notifications.add(notification);
+        }
+
+        if (!notifications.isEmpty()) {
+
+            GenericResponse genericResponse = new GenericResponse();
+            genericResponse.setCode(String.valueOf(HttpStatus.BAD_REQUEST.value()));
+            genericResponse.setNotifications(notifications);
+
+            return genericResponse;
+        }
+
+        GenericDTO genericDTO = _iOrgClientService.signup(orgSignupRequestDTO);
+
+        List<GenericDTO> genericDTOs = new ArrayList<>();
+        genericDTOs.add(genericDTO);
+
+        ModalDTO modalDTO = new ModalDTO();
+        modalDTO.setData(genericDTOs);
+
+        GenericResponse genericResponse = new GenericResponse();
+        genericResponse.setCode(HttpStatus.OK.getReasonPhrase());
+        genericResponse.setModalDTO(modalDTO);
+
+        return genericResponse;
+    }
+
+
+
+    @PostMapping("/org-signup")
+    public GenericResponse registerStaff(@Valid @RequestBody OrgSignupRequestDTO orgSignupRequestDTO) {
 
         List<Notification> notifications = new ArrayList<>();
 

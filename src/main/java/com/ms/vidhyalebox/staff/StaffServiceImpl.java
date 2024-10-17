@@ -17,7 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class StaffServiceImpl extends GenericService<GenericEntity, Long> implements IUserService {
+public class StaffServiceImpl extends GenericService<GenericEntity, Long> implements IStaffService {
 
 	private final IStaffRepo _iStaffRepo;
 	private final AuthenticationManager authenticationManager;
@@ -47,6 +47,14 @@ public class StaffServiceImpl extends GenericService<GenericEntity, Long> implem
 		return jwtTokenProvider.generateToken(phoneNumber);
 	}
 
+
+	public boolean isEmailAlreadyExist(final String emailAddress) {
+		return _iStaffRepo.existsByEmailAddress(emailAddress);
+	}
+
+	public boolean isMobileNumberExist(final String phoneNumber) {
+		return _iStaffRepo.existsByMobileNumber(phoneNumber);
+	}
 	public void logout() {
 		// Handle logout if needed (e.g., invalidate tokens on client-side).
 	}

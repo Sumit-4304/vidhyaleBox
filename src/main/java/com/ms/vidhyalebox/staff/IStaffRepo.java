@@ -8,10 +8,10 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IStaffRepo extends GenericRepo<StaffEntity, Long> {
-	
-	UserEntity findByPhoneNumber(final String email);
+
+	StaffEntity findByMobileNumber(final String mobileNumber);
 	Boolean existsByEmailAddress(final String email);
-	boolean existsByPhoneNumber(final String phoneNumber);
+	boolean existsByMobileNumber(final String phoneNumber);
 //	Optional<UserEntity> findByReferralCodeOrPhoneNumberOrEmailAddress(final String referralCode, final String phoneNumber, final String emailAddress);
 //	Optional<UserEntity> findByReferralCode(final String referralCode);
 //	Optional<UserEntity> findByEmailAddressOrPhoneNumber(final String email, final String phoneNumber);

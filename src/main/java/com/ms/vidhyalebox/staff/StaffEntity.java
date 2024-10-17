@@ -37,7 +37,7 @@ public class StaffEntity extends GenericEntity {
 
 	@EqualsAndHashCode.Include
 	@Column(name = "phone_number")
-	private String phoneNumber;
+	private String mobileNumber;
 
 	@Column(name = "pwd")
 	private String password;
@@ -75,6 +75,12 @@ public class StaffEntity extends GenericEntity {
 
 	@Column(name = "department")
 	private String department;
+
+	@Column(name = "email")
+	private String email;
+
+	@Column(name = "address")
+	private String address;
 
 //	@ToString.Exclude
 //	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
