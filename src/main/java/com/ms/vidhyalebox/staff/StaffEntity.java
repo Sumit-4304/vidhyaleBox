@@ -36,7 +36,7 @@ public class StaffEntity extends GenericEntity {
 	private String gender;
 
 	@EqualsAndHashCode.Include
-	@Column(name = "phone_number")
+	@Column(name = "mobile_number")
 	private String mobileNumber;
 
 	@Column(name = "pwd")

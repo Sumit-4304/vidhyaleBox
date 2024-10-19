@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: "2"
+      id: "5"
       author: "Sumit.k"
       changes:
         - createTable:
@@ -39,11 +39,7 @@ databaseChangeLog:
                   type: Date
 
               - column:
-                  name: address
-                  type: VARCHAR(256)
-
-              - column:
-                  name: phone_number
+                  name: mobile_number
                   type: VARCHAR(32)
 
               - column:
@@ -55,12 +51,24 @@ databaseChangeLog:
                   type: bigint
 
               - column:
+                  name: address
+                  type: VARCHAR(256)
+
+              - column:
                   name: role_id
                   type: bigint
                   constraints:
                     nullable: false
                     foreignKeyName: fk_users_role
                     references: role(id)
+
+              - column:
+                  name: parent_id
+                  type: bigint
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_users_parent
+                    references: parent(id)
 
               - column:
                   name: is_account_non_locked
@@ -86,6 +94,18 @@ databaseChangeLog:
               - column:
                   name: is_active
                   type: boolean
+
+              - column:
+                  name: federated_user_id
+                  type: varchar(256)
+                  constraints:
+                    nullable: true
+
+              - column:
+                  name: identity_provider
+                  type: varchar(256)
+                  constraints:
+                    nullable: true
 
               - column:
                   name: created_at
