@@ -32,6 +32,8 @@ public class SecurityConfig {
                 .requestMatchers("/org/**").permitAll()
                 .requestMatchers("/user/**").permitAll()
                 .requestMatchers("/role/**").permitAll()
+                .requestMatchers("/health/**").permitAll() // Allow unauthenticated access to /health
+                .requestMatchers("/error").permitAll()   // Allow unauthenticated access to /error
                 .requestMatchers("/root-admin/**").hasRole("ROOT_ADMIN")
                 .requestMatchers("/school/**").hasRole("SCHOOL_ADMIN")
                 .requestMatchers("/student/**").hasRole("STUDENT")
@@ -44,6 +46,7 @@ public class SecurityConfig {
 
         return http.build();
     }
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
