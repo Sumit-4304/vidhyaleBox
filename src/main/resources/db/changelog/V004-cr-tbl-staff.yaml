@@ -1,0 +1,130 @@
+databaseChangeLog:
+  - changeSet:
+      id: "4"
+      author: "Yogesh"
+      changes:
+        - createTable:
+            tableName: staff
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+
+              - column:
+                  name: org_uniq_id
+                  type: VARCHAR
+
+              - column:
+                  name: first_name
+                  type: VARCHAR(256)
+
+              - column:
+                  name: last_name
+                  type: VARCHAR(256)
+
+              - column:
+                  name: status
+                  type: VARCHAR
+
+              - column:
+                  name: gender
+                  type: VARCHAR
+
+              - column:
+                  name: birth_date
+                  type: Date
+
+              - column:
+                  name: area_pin
+                  type: bigint
+
+              - column:
+                  name: mobile_number
+                  type: VARCHAR(32)
+
+              - column:
+                  name: pwd
+                  type: VARCHAR(256)
+
+              - column:
+                  name: role_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_users_role
+                    references: role(id)
+
+              - column:
+                  name: is_account_non_locked
+                  type: boolean
+                  constraints:
+                    nullable: true
+              - column:
+                  name: is_account_non_expired
+                  type: boolean
+                  constraints:
+                    nullable: true
+              - column:
+                  name: is_credentials_non_expired
+                  type: boolean
+                  constraints:
+                    nullable: true
+
+
+              - column:
+                  name: is_phone_number_verified
+                  type: boolean
+
+              - column:
+                  name: federated_user_id
+                  type: VARCHAR(256)
+                  constraints:
+                    nullable: true
+
+              - column:
+                  name: identity_provider
+                  type: VARCHAR(256)
+                  constraints:
+                    nullable: true
+
+              - column:
+                  name: department
+                  type: VARCHAR(256)
+                  constraints:
+                    nullable: true
+
+              - column:
+                  name: email
+                  type: VARCHAR(256)
+                  constraints:
+                    nullable: true
+
+              - column:
+                  name: address
+                  type: VARCHAR(256)
+                  constraints:
+                    nullable: true
+
+              - column:
+                  name: is_active
+                  type: boolean
+
+              - column:
+                  name: created_at
+                  type: datetime
+
+              - column:
+                  name: updated_at
+                  type: datetime
+
+              - column:
+                  name: created_by
+                  type: bigint
+
+              - column:
+                  name: updated_by
+                  type: bigint
