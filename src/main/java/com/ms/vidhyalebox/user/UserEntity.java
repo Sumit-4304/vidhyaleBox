@@ -2,6 +2,7 @@ package com.ms.vidhyalebox.user;
 
 
 import com.ms.shared.util.util.domain.GenericEntity;
+import com.ms.vidhyalebox.parent.ParentEntity;
 import com.ms.vidhyalebox.role.RoleEntity;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -37,11 +38,18 @@ public class UserEntity extends GenericEntity {
 	private String gender;
 
 	@EqualsAndHashCode.Include
-	@Column(name = "phone_number")
-	private String phoneNumber;
+	@Column(name = "mobile_number")
+	private String mobileNumber;
 
 	@Column(name = "pwd")
 	private String password;
+
+	@Column(name = "address")
+	private String address;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "parent_id", referencedColumnName = "id")
+	private ParentEntity parent;
 
 //	@OneToOne(fetch = FetchType.LAZY, mappedBy = "user")
 //	private UserProfileEntity userProfile;

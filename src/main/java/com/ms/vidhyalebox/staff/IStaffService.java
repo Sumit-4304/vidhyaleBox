@@ -1,6 +1,9 @@
 package com.ms.vidhyalebox.staff;
 
 
+import com.ms.shared.api.auth.OrgSignupRequestDTO;
+import com.ms.shared.api.auth.StaffSignupRequestDTO;
+import com.ms.shared.api.generic.GenericDTO;
 import com.ms.shared.util.util.bl.IGenericService;
 import com.ms.shared.util.util.domain.GenericEntity;
 
@@ -13,7 +16,9 @@ public interface IStaffService extends IGenericService<GenericEntity, Long> {
 //
 //	public GenericDTO getUserById(final Long id);
 //
-//// boolean isEmailAlreadyExist(final String emailAddress);
+ boolean isEmailAlreadyExist(final String emailAddress);
+ public GenericDTO signup(StaffSignupRequestDTO staffSignupRequestDTO);
+ public boolean isMobileNumberExist(final String MobileNumber);
 //
 //	GenericDTO findByEmailAddress(String input);
 //

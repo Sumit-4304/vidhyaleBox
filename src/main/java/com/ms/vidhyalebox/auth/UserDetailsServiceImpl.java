@@ -5,6 +5,12 @@ import java.util.Optional;
 
 import com.ms.vidhyalebox.orgclient.IOrgClientRepo;
 import com.ms.vidhyalebox.orgclient.OrgClientEntity;
+import com.ms.vidhyalebox.parent.IParentRepo;
+import com.ms.vidhyalebox.parent.ParentEntity;
+import com.ms.vidhyalebox.staff.IStaffRepo;
+import com.ms.vidhyalebox.staff.StaffEntity;
+import com.ms.vidhyalebox.teacher.ITeacherRepo;
+import com.ms.vidhyalebox.teacher.TeacherEntity;
 import com.ms.vidhyalebox.user.IUserRepo;
 import com.ms.vidhyalebox.user.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +27,17 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 	private final IUserRepo _userRepo; // Repository for UserEntity
 	private final IOrgClientRepo _IOrgClientRepo; // Repository for OrgClientEntity
+	private final IStaffRepo _iStaffRepo;
+	private final ITeacherRepo _ITeacherRepo;
+	private final IParentRepo _IParentRepo;
 
 	@Autowired
-	public UserDetailsServiceImpl(final IUserRepo userRepo, IOrgClientRepo iOrgClientRepo) {
+	public UserDetailsServiceImpl(final IUserRepo userRepo, IOrgClientRepo iOrgClientRepo, IStaffRepo iStaffRepo, ITeacherRepo iTeacherRepo, IParentRepo iParentRepo) {
 		_userRepo = userRepo;
 		_IOrgClientRepo = iOrgClientRepo;
+		_iStaffRepo = iStaffRepo;
+		_ITeacherRepo = iTeacherRepo;
+		_IParentRepo = iParentRepo;
 	}
 
 	@Override
@@ -37,8 +49,43 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			return UserPrincipal.build(orgClientEntityOptional.get());
 		}
 
-		String processedPhoneNumber = getLastTenDigits(username);
-		UserEntity userEntity = _userRepo.findByPhoneNumber(processedPhoneNumber);
+		Optional<StaffEntity> optionalStaffEntity;
+		if (username.contains("@")) {
+			// If it's an email, search by email and null for the mobile number
+			optionalStaffEntity = _iStaffRepo.findByEmailOrMobileNumber(username, null);
+		} else {
+			// Otherwise, treat it as a mobile number and search by null for the email
+			optionalStaffEntity = _iStaffRepo.findByEmailOrMobileNumber(null, username);
+		}		if (optionalStaffEntity.isPresent()) {
+			return UserPrincipal.build(optionalStaffEntity.get());
+		}
+	//	Optional<TeacherEntity> teacherEntity = _ITeacherRepo.findByEmailOrMobileNumber(username);
+		Optional<TeacherEntity> optionalTeacherEntity;
+		if (username.contains("@")) {
+			// If it's an email, search by email and null for the mobile number
+			optionalTeacherEntity = _ITeacherRepo.findByEmailOrMobileNumber(username, null);
+		} else {
+			// Otherwise, treat it as a mobile number and search by null for the email
+			optionalTeacherEntity = _ITeacherRepo.findByEmailOrMobileNumber(null, username);
+		}
+		if (optionalTeacherEntity.isPresent()) {
+			return UserPrincipal.build(optionalTeacherEntity.get());
+		}
+
+			Optional<ParentEntity> optionalParentEntity;
+				if (username.contains("@")) {
+					// If it's an email, search by email and null for the mobile number
+					optionalParentEntity = _IParentRepo.findByEmailOrMobileNumber(username, null);
+				} else {
+					// Otherwise, treat it as a mobile number and search by null for the email
+					optionalParentEntity = _IParentRepo.findByEmailOrMobileNumber(null, username);
+				}
+				if (optionalParentEntity.isPresent()) {
+					return UserPrincipal.build(optionalParentEntity.get());
+				}
+
+		String mobileNumber = getLastTenDigits(username);
+		UserEntity userEntity = _userRepo.findByMobileNumber(mobileNumber);
 		// If found, return UserPrincipal
 		if (Objects.nonNull(userEntity)) {
 			return UserPrincipal.build(userEntity);

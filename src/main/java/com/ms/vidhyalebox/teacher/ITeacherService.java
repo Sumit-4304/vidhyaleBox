@@ -1,11 +1,16 @@
 package com.ms.vidhyalebox.teacher;
 
 
+import com.ms.shared.api.auth.StaffSignupRequestDTO;
+import com.ms.shared.api.auth.TeacherSignupRequestDTO;
+import com.ms.shared.api.generic.GenericDTO;
 import com.ms.shared.util.util.bl.IGenericService;
 import com.ms.shared.util.util.domain.GenericEntity;
 
 public interface ITeacherService extends IGenericService<GenericEntity, Long> {
-
+    boolean isEmailAlreadyExist(final String emailAddress);
+    public GenericDTO signup(TeacherSignupRequestDTO teacherSignupRequestDTO);
+    public boolean isMobileNumberExist(final String MobileNumber);
 
 //	public boolean logout(LoginRequestDTO userDTO);
 //

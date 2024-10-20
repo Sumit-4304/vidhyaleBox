@@ -1,87 +1,95 @@
 package com.ms.vidhyalebox.teacher;
 
+import com.ms.shared.api.auth.TeacherSignupRequestDTO;
+import com.ms.shared.api.auth.TeacherSignupResponseDTO;
+import com.ms.shared.api.generic.GenericDTO;
+import com.ms.vidhyalebox.utility.VidhyaleBoxUtil;
+import com.ms.shared.util.util.TILServiceUtil;
 import com.ms.shared.util.util.bl.IMapperNormal;
+import com.ms.shared.util.util.domain.GenericEntity;
 import org.springframework.stereotype.Service;
 
 @Service
 public class TeacherMapperNormal implements IMapperNormal {
 
-//	@Override
-//	public GenericEntity dtoToEntity(GenericDTO genericDto, GenericEntity genericEntity) {
+	@Override
+	public GenericEntity dtoToEntity(GenericDTO genericDto, GenericEntity genericEntity) {
+
+		TeacherEntity entity = genericEntity == null ? new TeacherEntity() : (TeacherEntity) genericEntity;
+
+		TeacherSignupRequestDTO teacherSignupRequestDTO = (TeacherSignupRequestDTO) genericDto;
+
+		entity.setBirthDate(teacherSignupRequestDTO.getDateOfBirth());
+		entity.setEmail(teacherSignupRequestDTO.getEmailAddress());
+		entity.setFirstName(teacherSignupRequestDTO.getFirstname());
+		entity.setGender(teacherSignupRequestDTO.getGender());
+		entity.setLastName(teacherSignupRequestDTO.getLastname());
+		//entity.setMiddleName(signupRequestDTO.getMiddleName());
+		entity.setPassword(teacherSignupRequestDTO.getPassword() == null ? entity.getPassword() : teacherSignupRequestDTO.getPassword());
+		entity.setMobileNumber(teacherSignupRequestDTO.getIsdCode().concat( teacherSignupRequestDTO.getMobileNumber()));
+		//TODO - following 3 field set to True temporary
+		entity.setAccountNonLocked(true);
+		entity.setAccountNonExpired(true);
+		entity.setCredentialsNonExpired(true);
+		//entity.setActive(true);     //TODO - Temporary enabled but will be active after verify Phone Number - JIRA to be created
+		//entity.setEmailVerified(true); //TODO - Temporary enabled but will be true after email - JIRA to be created
+		//entity.setPhoneNumberVerified(true); //TODO - Temporary enabled but will be true after verify Phone Number - JIRA to be created
+
+		return entity;
+	}
 //
-//		UserEntity entity = genericEntity == null ? new UserEntity() : (UserEntity) genericEntity;
-//
-//		SignupRequestDTO signupRequestDTO = (SignupRequestDTO) genericDto;
-//		entity.setBirthDate(signupRequestDTO.getDateOfBirth());
-////		entity.setEmailAddress(signupRequestDTO.getEmail());
-//		entity.setFirstName(signupRequestDTO.getFirstName());
-//		entity.setGender(signupRequestDTO.getGender());
-//		entity.setLastName(signupRequestDTO.getLastName());
-//		//entity.setMiddleName(signupRequestDTO.getMiddleName());
-//		entity.setPassword(signupRequestDTO.getPassword() == null ? entity.getPassword() : signupRequestDTO.getPassword());
-//		entity.setPhoneNumber(signupRequestDTO.getIsdCode().concat( signupRequestDTO.getPhoneNumber()));
-//		//TODO - following 3 field set to True temporary
-//		entity.setAccountNonLocked(true);
-//		entity.setAccountNonExpired(true);
-//		entity.setCredentialsNonExpired(true);
-//		//entity.setActive(true);     //TODO - Temporary enabled but will be active after verify Phone Number - JIRA to be created
-//		//entity.setEmailVerified(true); //TODO - Temporary enabled but will be true after email - JIRA to be created
-//		//entity.setPhoneNumberVerified(true); //TODO - Temporary enabled but will be true after verify Phone Number - JIRA to be created
-//
-//		return entity;
-//	}
-////
-//	@Override
-//	public GenericDTO entityToDto(GenericEntity genericEntity) {
-//
-//		UserEntity userEntity = (UserEntity) genericEntity;
-//
-//		SignupResponseDTO signupResponseDTO = new SignupResponseDTO();
-//		signupResponseDTO.setEmail(userEntity.getEmailAddress());
-//		signupResponseDTO.setPhoneNumber(userEntity.getPhoneNumber());
-//		signupResponseDTO.setFirstName(userEntity.getFirstName());
-//		signupResponseDTO.setLastName(userEntity.getLastName());
-//		signupResponseDTO.setGender(userEntity.getGender());
-//		signupResponseDTO.setDateOfBirth(TILServiceUtil.convertDateToString(userEntity.getBirthDate(), TilConstants.DATE_FORMAT));
-//		signupResponseDTO.setEmailVerified(userEntity.isEmailVerified());
-//		signupResponseDTO.setPhoneVerified(userEntity.isPhoneNumberVerified());
-//		signupResponseDTO.setIdentityProvider(userEntity.getIdentityProvider());
-//
-//		return signupResponseDTO;
-//	}
-//
-//	@Override
-//	public GenericDTO entityToDtoForAdmin(GenericEntity genericEntity) {
-//
-//		UserEntity userEntity = (UserEntity) genericEntity;
-//
-//		SignupResponseDTO signupResponseDTO = new SignupResponseDTO();
-//		signupResponseDTO.setId(userEntity.getId());
-//		signupResponseDTO.setEmail(userEntity.getEmailAddress());
-//		signupResponseDTO.setPhoneNumber(userEntity.getPhoneNumber());
-//		signupResponseDTO.setFirstName(userEntity.getFirstName());
-//		signupResponseDTO.setLastName(userEntity.getLastName());
-//
-//		return signupResponseDTO;
-//	}
-//
-//	public GenericDTO mapUserDetailsDto(GenericEntity genericEntity) {
-//		UserEntity userEntity = (UserEntity) genericEntity;
-//		SignupResponseDTO userResponseDTO = new SignupResponseDTO();
-//		userResponseDTO.setId(String.valueOf(userEntity.getId()));
-//		if (userEntity.getBirthDate() != null) {
-//			userResponseDTO.setDateOfBirth(TILServiceUtil.convertDateToString(userEntity.getBirthDate(), TilConstants.DATE_FORMAT));
-//		}
-//		//userResponseDTO.setId(userEntity.getId());
-//		userResponseDTO.setEmail(userEntity.getEmailAddress());
-//		userResponseDTO.setFirstName(userEntity.getFirstName());
-//		userResponseDTO.setGender(userEntity.getGender());
-//		userResponseDTO.setLastName(userEntity.getLastName());
-//		//userResponseDTO.setMiddleName(userEntity.getMiddleName());
-//		userResponseDTO.setPhoneNumber(userEntity.getPhoneNumber());
-//
-//		return userResponseDTO;
-//	}
+	@Override
+	public GenericDTO entityToDto(GenericEntity genericEntity) {
+
+		TeacherEntity teacherEntity = (TeacherEntity) genericEntity;
+
+		TeacherSignupResponseDTO teacherSignupResponseDTO = new TeacherSignupResponseDTO();
+
+		teacherSignupResponseDTO.setEmailAddress(teacherEntity.getEmail());
+		teacherSignupResponseDTO.setMobileNumber(teacherEntity.getMobileNumber());
+		teacherSignupResponseDTO.setFirstName(teacherEntity.getFirstName());
+		teacherSignupResponseDTO.setLastName(teacherEntity.getLastName());
+		teacherSignupResponseDTO.setGender(teacherEntity.getGender());
+		teacherSignupResponseDTO.setDateOfBirth(TILServiceUtil.convertDateToString(teacherEntity.getBirthDate(), VidhyaleBoxUtil.DATE_FORMAT));
+		teacherSignupResponseDTO.setEmailVerified(teacherEntity.isEmailVerified());
+		teacherSignupResponseDTO.setPhoneVerified(teacherEntity.isPhoneNumberVerified());
+		teacherSignupResponseDTO.setIdentityProvider(teacherEntity.getIdentityProvider());
+
+		return teacherSignupResponseDTO;
+	}
+
+	@Override
+	public GenericDTO entityToDtoForAdmin(GenericEntity genericEntity) {
+
+		TeacherEntity teacherEntity = (TeacherEntity) genericEntity;
+
+		TeacherSignupResponseDTO teacherSignupResponseDTO = new TeacherSignupResponseDTO();
+		teacherSignupResponseDTO.setId(teacherEntity.getId());
+		teacherSignupResponseDTO.setEmailAddress(teacherEntity.getEmail());
+		teacherSignupResponseDTO.setMobileNumber(teacherEntity.getMobileNumber());
+		teacherSignupResponseDTO.setFirstName(teacherEntity.getFirstName());
+		teacherSignupResponseDTO.setLastName(teacherEntity.getLastName());
+
+		return teacherSignupResponseDTO;
+	}
+
+	public GenericDTO mapUserDetailsDto(GenericEntity genericEntity) {
+		TeacherEntity teacherEntity = (TeacherEntity) genericEntity;
+		TeacherSignupResponseDTO teacherSignupResponseDTO = new TeacherSignupResponseDTO();
+		teacherSignupResponseDTO.setId(String.valueOf(teacherEntity.getId()));
+		if (teacherEntity.getBirthDate() != null) {
+			teacherSignupResponseDTO.setDateOfBirth(TILServiceUtil.convertDateToString(teacherEntity.getBirthDate(), VidhyaleBoxUtil.DATE_FORMAT));
+		}
+	//	teacherSignupResponseDTO.setId(TeacherEntity.getId());
+		teacherSignupResponseDTO.setEmailAddress(teacherEntity.getEmail());
+		teacherSignupResponseDTO.setFirstName(teacherEntity.getFirstName());
+		teacherSignupResponseDTO.setGender(teacherEntity.getGender());
+		teacherSignupResponseDTO.setLastName(teacherEntity.getLastName());
+		//userResponseDTO.setMiddleName(userEntity.getMiddleName());
+		teacherSignupResponseDTO.setMobileNumber(teacherEntity.getMobileNumber());
+
+		return teacherSignupResponseDTO;
+	}
 //
 //	public GenericEntity federatedDtoToEntity(FederatedUserDTO federatedUserDTO, IdentityProvider identityProvider) {
 //

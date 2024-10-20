@@ -14,7 +14,7 @@ import java.util.Date;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "staff")
+@Table(name = "teacher")
 public class TeacherEntity extends GenericEntity {
 
 	@Column(name = "org_uniq_id")
@@ -35,11 +35,17 @@ public class TeacherEntity extends GenericEntity {
 	private String gender;
 
 	@EqualsAndHashCode.Include
-	@Column(name = "phone_number")
-	private String phoneNumber;
+	@Column(name = "mobile_number")
+	private String mobileNumber;
 
 	@Column(name = "pwd")
 	private String password;
+
+	@Column(name = "email")
+	private String email;
+
+	@Column(name = "address")
+	private String address;
 
 //	@OneToOne(fetch = FetchType.LAZY, mappedBy = "user")
 //	private UserProfileEntity userProfile;
@@ -60,8 +66,8 @@ public class TeacherEntity extends GenericEntity {
 	@Column(name = "is_credentials_non_expired")
 	private boolean isCredentialsNonExpired;
 	
-//	@Column(name = "is_email_verified")
-//	private boolean isEmailVerified;
+	@Column(name = "is_email_verified")
+	private boolean isEmailVerified;
 	
 	@Column(name = "is_phone_number_verified")
 	private boolean isPhoneNumberVerified;

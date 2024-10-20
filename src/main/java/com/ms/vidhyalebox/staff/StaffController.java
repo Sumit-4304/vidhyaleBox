@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "*")
 @RestController
 @Validated
-@RequestMapping("/user")
+@RequestMapping("/staff")
 public class StaffController extends GenericController<SignupRequestDTO, Long> {
 
 	private final UserServiceImpl _userService;
@@ -31,11 +31,11 @@ public class StaffController extends GenericController<SignupRequestDTO, Long> {
 	}
 
 
-	@PostMapping("/signup")
+/*	@PostMapping("/signup")
 	public ResponseEntity<UserEntity> signup(@RequestBody UserEntity userEntity) {
 		UserEntity savedUser = _userService.signup(userEntity);
 		return ResponseEntity.ok(savedUser);
-	}
+	}*/
 
 	@PostMapping("/login")
 	public ResponseEntity<String> login(@RequestParam String phoneNumber, @RequestParam String password) {

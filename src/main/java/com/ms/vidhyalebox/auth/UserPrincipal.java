@@ -2,6 +2,7 @@ package com.ms.vidhyalebox.auth;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ms.vidhyalebox.orgclient.OrgClientEntity; // Import OrgClientEntity
+import com.ms.vidhyalebox.parent.ParentEntity;
 import com.ms.vidhyalebox.staff.StaffEntity;
 import com.ms.vidhyalebox.teacher.TeacherEntity;
 import com.ms.vidhyalebox.user.UserEntity;
@@ -48,7 +49,7 @@ public class UserPrincipal implements UserDetails {
 
 		return new UserPrincipal(
 				userEntity.getId(),
-				userEntity.getPhoneNumber(),
+				userEntity.getMobileNumber(),
 				userEntity.getPassword(),
 				authorities,
 				userEntity.isActive(),
@@ -81,7 +82,7 @@ public class UserPrincipal implements UserDetails {
 
 		return new UserPrincipal(
 				teacherEntity.getId(), // Ensure OrgClientEntity has an ID
-				teacherEntity.getPhoneNumber(), // Use Phone as username
+				teacherEntity.getMobileNumber(), // Use Phone as username
 				teacherEntity.getPassword(),
 				authorities,
 				teacherEntity.isActive(), // Assuming OrgClientEntity has similar fields
@@ -97,7 +98,7 @@ public class UserPrincipal implements UserDetails {
 
 		return new UserPrincipal(
 				staffEntity.getId(), // Ensure OrgClientEntity has an ID
-				staffEntity.getPhoneNumber(), // Use Phone as username
+				staffEntity.getMobileNumber(), // Use Phone as username
 				staffEntity.getPassword(),
 				authorities,
 				staffEntity.isActive(), // Assuming OrgClientEntity has similar fields
@@ -106,6 +107,21 @@ public class UserPrincipal implements UserDetails {
 				staffEntity.isCredentialsNonExpired() // Assuming OrgClientEntity has similar fields
 		);
 	}
+
+		public static UserPrincipal build(final ParentEntity parentEntity) {
+			List<GrantedAuthority> authorities = Arrays.asList(new SimpleGrantedAuthority(parentEntity.getRoleEntity().getName()));
+
+			return new UserPrincipal(
+					parentEntity.getId(), // Ensure OrgClientEntity has an ID
+					parentEntity.getMobileNumber(), // Use Phone as username
+					parentEntity.getPassword(),
+					authorities,
+					parentEntity.isActive(), // Assuming OrgClientEntity has similar fields
+					parentEntity.isAccountNonLocked(), // Assuming OrgClientEntity has similar fields
+					parentEntity.isAccountNonExpired(), // Assuming OrgClientEntity has similar fields
+					parentEntity.isCredentialsNonExpired() // Assuming OrgClientEntity has similar fields
+			);
+		}
 
 
 	@Override

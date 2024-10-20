@@ -1,9 +1,7 @@
 package com.ms.vidhyalebox.user;
 
 
-import com.ms.shared.api.auth.LoginRequestDTO;
-import com.ms.shared.api.auth.ResetPasswordDTO;
-import com.ms.shared.api.auth.SignupRequestDTO;
+import com.ms.shared.api.auth.*;
 import com.ms.shared.api.generic.GenericDTO;
 import com.ms.shared.api.user.device.DeviceInfoDTO;
 import com.ms.shared.api.user.password.ChangePasswordRequestDTO;
@@ -16,7 +14,9 @@ import javax.validation.constraints.NotNull;
 
 public interface IUserService extends IGenericService<GenericEntity, Long> {
 
-
+    //boolean isEmailAlreadyExist(final String emailAddress);
+    public GenericDTO signup(SignupRequestDTO SignupRequestDTO);
+    public boolean isMobileNumberExist(final String MobileNumber);
 //	public boolean logout(LoginRequestDTO userDTO);
 //
 //	public GenericDTO add(SignupRequestDTO request);
