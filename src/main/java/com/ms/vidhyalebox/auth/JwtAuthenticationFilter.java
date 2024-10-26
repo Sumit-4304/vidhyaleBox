@@ -19,9 +19,9 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtTokenProvider tokenProvider;
-    private final UserServiceImpl userService;
+    private final UserDetailsServiceImpl userService;
 
-    public JwtAuthenticationFilter(JwtTokenProvider tokenProvider, @Lazy UserServiceImpl userService) {
+    public JwtAuthenticationFilter(JwtTokenProvider tokenProvider, UserDetailsServiceImpl userService) {
         this.tokenProvider = tokenProvider;
         this.userService = userService;
     }
@@ -33,7 +33,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             String token = getJwtFromRequest(request);
             if (token != null && tokenProvider.validateToken(token)) {
                 String username = tokenProvider.getUsernameFromToken(token);
-                UserDetails userDetails = userService.loadUserByUsername(username);
+                UserDetails userDetails = loadUserByUsername(username);
 
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities()
@@ -46,6 +46,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             logger.error("Failed to set user authentication", ex);
         }
         chain.doFilter(request, response);
+    }
+
+    private UserDetails loadUserByUsername(String username) {
+
+        return userService.loadUserByUsername(username);
     }
 
     private String getJwtFromRequest(HttpServletRequest request) {

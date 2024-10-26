@@ -24,20 +24,45 @@ public class SecurityConfig {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
 
+ /*   @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationManager authenticationManager) throws Exception {
+        http
+                .csrf().disable()  // Disable CSRF for stateless API
+                .authorizeHttpRequests()
+                .requestMatchers("/auth/**").permitAll()
+//                .requestMatchers("/org/**").permitAll()
+//                .requestMatchers("/user/**").permitAll()
+                .requestMatchers("/role/**").permitAll()
+                .requestMatchers("/health/**").permitAll() // Allow unauthenticated access to /health
+                .requestMatchers("/error").permitAll()   // Allow unauthenticated access to /error
+                .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**").permitAll() // Allow Swagger access
+//                .requestMatchers("/root-admin/**").hasRole("ROOT_ADMIN")
+//                .requestMatchers("/school/**").hasRole("SCHOOL_ADMIN")
+//                .requestMatchers("/student/**").hasRole("STUDENT")
+//                .requestMatchers("/teacher/**").hasRole("TEACHER")
+                .requestMatchers("/url/**").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)  // Stateless session management
+                .and()
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);  // Authorization filter before username/password filter
+
+        return http.build();
+    }*/
+
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationManager authenticationManager) throws Exception {
         http
                 .csrf().disable()  // Disable CSRF for stateless API
                 .authorizeHttpRequests()
-                .requestMatchers("/org/**").permitAll()
-                .requestMatchers("/user/**").permitAll()
+                .requestMatchers("/auth/**").permitAll()
                 .requestMatchers("/role/**").permitAll()
                 .requestMatchers("/health/**").permitAll() // Allow unauthenticated access to /health
                 .requestMatchers("/error").permitAll()   // Allow unauthenticated access to /error
-                .requestMatchers("/root-admin/**").hasRole("ROOT_ADMIN")
-                .requestMatchers("/school/**").hasRole("SCHOOL_ADMIN")
-                .requestMatchers("/student/**").hasRole("STUDENT")
-                .requestMatchers("/teacher/**").hasRole("TEACHER")
+                .requestMatchers("/v3/api-docs/**").permitAll() // Allow Swagger API docs access
+                .requestMatchers("/swagger-ui/**").permitAll() // Allow Swagger UI access
+                .requestMatchers("/url/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)  // Stateless session management
@@ -46,6 +71,7 @@ public class SecurityConfig {
 
         return http.build();
     }
+
 
 
     @Bean
