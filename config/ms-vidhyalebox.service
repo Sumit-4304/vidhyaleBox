@@ -9,7 +9,7 @@ SuccessExitStatus=143
 Restart=on-failure
 RestartSec=10
 StandardOutput=file:/home/ubuntu/logs/ms-VidhyaleBox/output.log
-
+StandardError=file:/home/ubuntu/logs/ms-VidhyaleBox/error.log
 
 [Install]
 WantedBy=multi-user.target
