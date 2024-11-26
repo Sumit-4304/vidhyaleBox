@@ -56,16 +56,19 @@ public class SecurityConfig {
         http
                 .csrf().disable()  // Disable CSRF for stateless API
                 .authorizeHttpRequests()
-                .requestMatchers("/auth/**").permitAll()
-                .requestMatchers("/role/**").permitAll()
-                .requestMatchers("/health/**").permitAll() // Allow unauthenticated access to /health
-                .requestMatchers("/error").permitAll()   // Allow unauthenticated access to /error
-                .requestMatchers("/v3/api-docs/**").permitAll() // Allow Swagger API docs access
-                .requestMatchers("/swagger-ui/**").permitAll() // Allow Swagger UI access
-                .requestMatchers("/url/**").permitAll()
-                .anyRequest().authenticated()
+                .requestMatchers("/auth/**").permitAll()  // Allow unauthenticated access to /auth
+                .requestMatchers("/role/**").permitAll()  // Allow unauthenticated access to /role
+                .requestMatchers("/health/**").permitAll()  // Allow unauthenticated access to /health
+                .requestMatchers("/error").permitAll()  // Allow unauthenticated access to /error
+                .requestMatchers("/v3/api-docs/**").permitAll()  // Allow Swagger API docs access
+                .requestMatchers("/swagger-ui/**").permitAll()  // Allow Swagger UI access
+                .requestMatchers("/swagger-ui.html").permitAll()  // Allow access to Swagger UI HTML page
+                .requestMatchers("/webjars/**").permitAll()  // Allow access to webjars (for Swagger UI resources)
+                .requestMatchers("/url/**").permitAll()  // Allow unauthenticated access to /url
+                .anyRequest().authenticated()  // All other endpoints require authentication
                 .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)  // Stateless session management
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)  // Stateless session management
                 .and()
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);  // Authorization filter before username/password filter
 
