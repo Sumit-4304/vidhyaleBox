@@ -14,19 +14,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("")
 public class AppController {
 
-    @Autowired
-    BuildProperties buildProperties;
-
-	    @GetMapping("/health")
-	    public AppHealthDTO health() {
-	    	AppHealthDTO appHealthDTO = AppHealthDTO.builder()
-	    			.appGroup(buildProperties.getGroup())
-	    			.appName(buildProperties.getName())
-	    			.appVersion(buildProperties.getVersion())
-	    			.time(buildProperties.get("time"))
-	    			.build();
-	    	appHealthDTO.setId(buildProperties.getName()+"-"+buildProperties.getVersion());
-	    	return appHealthDTO;
-	    }
+//    @Autowired
+//    BuildProperties buildProperties;
+//
+//	    @GetMapping("/health")
+//	    public AppHealthDTO health() {
+//	    	AppHealthDTO appHealthDTO = AppHealthDTO.builder()
+//	    			.appGroup(buildProperties.getGroup())
+//	    			.appName(buildProperties.getName())
+//	    			.appVersion(buildProperties.getVersion())
+//	    			.time(buildProperties.get("time"))
+//	    			.build();
+//	    	appHealthDTO.setId(buildProperties.getName()+"-"+buildProperties.getVersion());
+//	    	return appHealthDTO;
+//	    }
 
 }
