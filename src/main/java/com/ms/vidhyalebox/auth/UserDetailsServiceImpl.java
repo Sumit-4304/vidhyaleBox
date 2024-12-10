@@ -85,7 +85,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 				}
 
 		String mobileNumber = getLastTenDigits(username);
-		UserEntity userEntity = _userRepo.findByMobileNumber(mobileNumber);
+		UserEntity userEntity = _userRepo.findByIdentityProvider(username);
 		// If found, return UserPrincipal
 		if (Objects.nonNull(userEntity)) {
 			return UserPrincipal.build(userEntity);

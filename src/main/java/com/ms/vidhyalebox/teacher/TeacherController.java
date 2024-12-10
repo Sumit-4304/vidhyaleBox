@@ -43,11 +43,11 @@ public class TeacherController extends GenericController<SignupRequestDTO, Long>
 		return ResponseEntity.ok(token);
 	}
 
-	@PostMapping("/logout")
+/*	@PostMapping("/logout")
 	public ResponseEntity<Void> logout() {
 		_userService.logout();
 		return ResponseEntity.ok().build();
-	}
+	}*/
 
 
 //	@PostMapping("/logout")

@@ -18,6 +18,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Random;
+
 @Service
 public class UserServiceImpl extends GenericService<GenericEntity, Long> implements IUserService  {
 
@@ -44,9 +46,9 @@ public class UserServiceImpl extends GenericService<GenericEntity, Long> impleme
 		// Fetch the RoleEntity by role name (e.g., "ROLE_SCHOOL_ADMIN")
 		RoleEntity role = roleRepo.findByName(signupRequestDTO.getRole())
 				.orElseThrow(() -> new IllegalArgumentException("Invalid role specified"));
-
+		String admissionId = generateUniqueAdmissionId(signupRequestDTO.getSchoolName());
 		UserEntity userEntity = (UserEntity) userMapperNormal.dtoToEntity(signupRequestDTO);
-
+		userEntity.setIdentityProvider(admissionId);
 		// Set the role in the OrgClientEntity
 		userEntity.setRoleEntity(role);
 
@@ -56,9 +58,14 @@ public class UserServiceImpl extends GenericService<GenericEntity, Long> impleme
 		return genericDTO;
 	}
 
-	public boolean isMobileNumberExist(final String mobileNumber) {
-		return userRepository.existsByMobileNumber(mobileNumber);
+	@Override
+	public boolean isMobileNumberExist(String MobileNumber) {
+		return false;
 	}
+
+	/*public boolean isMobileNumberExist(final String mobileNumber) {
+		return userRepository.existsByMobileNumber(mobileNumber);
+	}*/
 
    /* public UserEntity signup(UserEntity userEntity) {
 		userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
@@ -71,9 +78,24 @@ public class UserServiceImpl extends GenericService<GenericEntity, Long> impleme
 		);
 		return jwtTokenProvider.generateToken(phoneNumber);
 	}
+	private String generateUniqueAdmissionId(String schoolName) {
+		String admissionId;
+		Random random = new Random();
 
-	public void logout() {
-		// Handle logout if needed (e.g., invalidate tokens on client-side).
+		do {
+			// Generate unique admission ID
+			String prefix = (schoolName.length() >= 3 ? schoolName.substring(0, 3) : schoolName).toUpperCase();
+			String currentYear = String.valueOf(java.time.Year.now().getValue());
+			int randomNumber = 1000 + random.nextInt(9000);
+
+			// Use text blocks with trim to remove newlines
+			admissionId = """
+            %s-%s-%04d
+        """.formatted(prefix, currentYear, randomNumber).trim();
+
+		} while (userRepository.existsByIdentityProvider(admissionId));
+
+		return admissionId;
 	}
 
 	public UserDetails loadUserByUsername(String username) {

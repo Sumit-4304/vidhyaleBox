@@ -13,9 +13,13 @@ import java.util.Optional;
 public interface IUserRepo extends GenericRepo<UserEntity, Long> {
 
 
-    UserEntity findByMobileNumber(String mobileNumber);
+   // UserEntity findByMobileNumber(String mobileNumber);
 //	Boolean existsByEmailAddress(final String email);
-	boolean existsByMobileNumber(final String mobileNumber);
+//	boolean existsByMobileNumber(final String mobileNumber);
+
+    boolean existsByIdentityProvider(String admissionId);
+
+    UserEntity findByIdentityProvider(String admissionId);
 
     //boolean existsByPhoneNumber(String mobileNumber);
 //	Optional<UserEntity> findByReferralCodeOrPhoneNumberOrEmailAddress(final String referralCode, final String phoneNumber, final String emailAddress);

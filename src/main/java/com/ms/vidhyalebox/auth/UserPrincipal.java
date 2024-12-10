@@ -49,7 +49,7 @@ public class UserPrincipal implements UserDetails {
 
 		return new UserPrincipal(
 				userEntity.getId(),
-				userEntity.getMobileNumber(),
+				userEntity.getIdentityProvider(),
 				userEntity.getPassword(),
 				authorities,
 				userEntity.isActive(),

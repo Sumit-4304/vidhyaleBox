@@ -31,6 +31,7 @@ import java.util.stream.Collectors;
 public class AuthController {
 
 
+    private final TokenBlacklistService _tokenBlacklistService;
 
     private final AuthenticationManager _authenticationManager;
     private final JwtTokenProvider _jwtTokenProvider;
@@ -40,7 +41,8 @@ public class AuthController {
     private final IParentService _iParentService;
     private final ITeacherService _iTeacherService;
     private final IUserService _iUserService;
-    public AuthController(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider, IOrgClientService iOrgClientService, IStaffService iStaffService, IParentService iParentService, ITeacherService iTeacherService, IUserService iUserService) {
+    public AuthController(TokenBlacklistService tokenBlacklistService, AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider, IOrgClientService iOrgClientService, IStaffService iStaffService, IParentService iParentService, ITeacherService iTeacherService, IUserService iUserService) {
+        _tokenBlacklistService = tokenBlacklistService;
         _authenticationManager = authenticationManager;
         _jwtTokenProvider = jwtTokenProvider;
         _iOrgClientService = iOrgClientService;
@@ -237,12 +239,12 @@ public class AuthController {
             notifications.add(notification);
         }*/
 
-        if (_iUserService.isMobileNumberExist(signupRequestDTO.getIsdCode().concat(signupRequestDTO.getMobileNumber()))) {
+     /*   if (_iUserService.isMobileNumberExist(signupRequestDTO.getIsdCode().concat(signupRequestDTO.getMobileNumber()))) {
             Notification notification = new Notification();
             notification.setNoificationCode("401");
             notification.setNotificationDescription("User's Phone Number already exists");
             notifications.add(notification);
-        }
+        }*/
 
         if (!notifications.isEmpty()) {
 
@@ -289,5 +291,15 @@ public class AuthController {
 
         LoginResponseDTO loginResponseDTO = LoginResponseDTO.builder().message("User has been deactivated/locked !!").build();
         return ResponseEntity.badRequest().body(loginResponseDTO);
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(@RequestHeader("Authorization") String tokenHeader) {
+        if (tokenHeader == null || !tokenHeader.startsWith("Bearer ")) {
+            return ResponseEntity.badRequest().body("Invalid token");
+        }
+        String token = tokenHeader.substring(7);
+        _tokenBlacklistService.blacklistToken(token);
+        return ResponseEntity.ok("Successfully logged out");
     }
 }

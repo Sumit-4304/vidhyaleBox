@@ -72,9 +72,6 @@ public class UserEntity extends GenericEntity {
 	
 //	@Column(name = "is_email_verified")
 //	private boolean isEmailVerified;
-	
-	@Column(name = "is_phone_number_verified")
-	private boolean isPhoneNumberVerified;
 
 	@Column(name= "federated_user_id")
 	private String federatedUserId;
@@ -86,9 +83,9 @@ public class UserEntity extends GenericEntity {
 //	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
 //	private List<UserPlanSubscriptionEntity> userPlanSubscriptionEntities;
 
-	@PrePersist
+	/*@PrePersist
 	private void encryptPassword() {
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		password = passwordEncoder.encode(password);
-	}
+	}*/
 }

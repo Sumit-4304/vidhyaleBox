@@ -25,12 +25,13 @@ public class UserMapperNormal implements IMapperNormal {
 		entity.setLastName(signupRequestDTO.getLastName());
 		//entity.setMiddleName(signupRequestDTO.getMiddleName());
 		entity.setPassword(signupRequestDTO.getPassword() == null ? entity.getPassword() : signupRequestDTO.getPassword());
-		entity.setMobileNumber(signupRequestDTO.getIsdCode().concat( signupRequestDTO.getMobileNumber()));
+		//entity.setMobileNumber(signupRequestDTO.getIsdCode().concat( signupRequestDTO.getMobileNumber()));
 		//TODO - following 3 field set to True temporary
 		entity.setAccountNonLocked(true);
 		entity.setAccountNonExpired(true);
 		entity.setCredentialsNonExpired(true);
-		//entity.setActive(true);     //TODO - Temporary enabled but will be active after verify Phone Number - JIRA to be created
+		entity.setOrgUniqId(signupRequestDTO.getOrgId());
+		entity.setActive(true);     //TODO - Temporary enabled but will be active after verify Phone Number - JIRA to be created
 		//entity.setEmailVerified(true); //TODO - Temporary enabled but will be true after email - JIRA to be created
 		//entity.setPhoneNumberVerified(true); //TODO - Temporary enabled but will be true after verify Phone Number - JIRA to be created
 
@@ -44,14 +45,13 @@ public class UserMapperNormal implements IMapperNormal {
 
 		SignupResponseDTO signupResponseDTO = new SignupResponseDTO();
 		//signupResponseDTO.setEmail(userEntity.getEmailAddress());
-		signupResponseDTO.setMobileNumber(userEntity.getMobileNumber());
+		//signupResponseDTO.setMobileNumber(userEntity.getMobileNumber());
 		signupResponseDTO.setFirstName(userEntity.getFirstName());
 		signupResponseDTO.setLastName(userEntity.getLastName());
 		signupResponseDTO.setGender(userEntity.getGender());
 		signupResponseDTO.setDateOfBirth(TILServiceUtil.convertDateToString(userEntity.getBirthDate(), VidhyaleBoxUtil.DATE_FORMAT));
 		//signupResponseDTO.setEmailVerified(userEntity.isEmailVerified());
-		signupResponseDTO.setPhoneVerified(userEntity.isPhoneNumberVerified());
-		signupResponseDTO.setIdentityProvider(userEntity.getIdentityProvider());
+		signupResponseDTO.setAdmissionId(userEntity.getIdentityProvider());
 
 		return signupResponseDTO;
 	}
@@ -64,7 +64,7 @@ public class UserMapperNormal implements IMapperNormal {
 		SignupResponseDTO signupResponseDTO = new SignupResponseDTO();
 		signupResponseDTO.setId(userEntity.getId());
 	//	signupResponseDTO.setEmail(userEntity.getEmailAddress());
-		signupResponseDTO.setMobileNumber(userEntity.getMobileNumber());
+	//	signupResponseDTO.setMobileNumber(userEntity.getMobileNumber());
 		signupResponseDTO.setFirstName(userEntity.getFirstName());
 		signupResponseDTO.setLastName(userEntity.getLastName());
 
@@ -85,7 +85,7 @@ public class UserMapperNormal implements IMapperNormal {
 		userResponseDTO.setGender(userEntity.getGender());
 		userResponseDTO.setLastName(userEntity.getLastName());
 		//userResponseDTO.setMiddleName(userEntity.getMiddleName());
-		userResponseDTO.setMobileNumber(userEntity.getMobileNumber());
+	//	userResponseDTO.setMobileNumber(userEntity.getMobileNumber());
 
 		return userResponseDTO;
 	}
